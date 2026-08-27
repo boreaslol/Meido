@@ -1,0 +1,248 @@
+@import "tailwindcss";
+@source "./**/*.tsx";
+@source "../tauri-web/**/*.tsx";
+
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Source Serif 4", ui-serif, Georgia, "Times New Roman", serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --color-bg: var(--vellum-bg);
+  --color-paper: var(--vellum-paper);
+  --color-fg: var(--vellum-fg);
+  --color-muted: var(--vellum-muted);
+  --color-surface: var(--vellum-surface);
+  --color-border: var(--vellum-border);
+  --color-accent: var(--vellum-accent);
+  --color-accent-fg: var(--vellum-accent-fg);
+  --color-danger: var(--vellum-danger);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --motion-quick: 150ms;
+  --motion-fast: 250ms;
+}
+
+:root {
+  --vellum-bg: #f4eee4;
+  --vellum-paper: #f4eee4;
+  --vellum-fg: #1c1917;
+  --vellum-muted: #6f6860;
+  --vellum-surface: #faf6f0;
+  --vellum-border: color-mix(in oklab, #1c1917 12%, transparent);
+  --vellum-accent: #3f5b73;
+  --vellum-accent-fg: #f4eee4;
+  --vellum-danger: #9f3a32;
+
+  --shadow-border:
+    0 0 0 1px color-mix(in oklab, #1c1917 8%, transparent),
+    0 1px 2px -1px color-mix(in oklab, #1c1917 8%, transparent);
+  --shadow-border-hover:
+    0 0 0 1px color-mix(in oklab, #1c1917 14%, transparent),
+    0 1px 3px -1px color-mix(in oklab, #1c1917 10%, transparent);
+  color-scheme: light;
+}
+
+html.dark {
+  --vellum-bg: #101012;
+  --vellum-paper: #101012;
+  --vellum-fg: #eceae6;
+  --vellum-muted: #a3a099;
+  --vellum-surface: #1a1a1c;
+  --vellum-border: color-mix(in oklab, #eceae6 12%, transparent);
+  --vellum-accent: #9eb0c2;
+  --vellum-accent-fg: #101012;
+  --vellum-danger: #e07a72;
+  --shadow-border: 0 0 0 1px color-mix(in oklab, #eceae6 10%, transparent);
+  --shadow-border-hover: 0 0 0 1px color-mix(in oklab, #eceae6 16%, transparent);
+  color-scheme: dark;
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--vellum-bg);
+    color: var(--vellum-fg);
+  }
+
+  :focus-visible {
+    outline: 2px solid color-mix(in oklab, var(--vellum-accent) 70%, transparent);
+    outline-offset: 2px;
+  }
+}
+
+.prose-body {
+  color: var(--vellum-fg);
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.prose-body > *:first-child {
+  margin-top: 0;
+}
+
+.prose-body h1,
+.prose-body h2,
+.prose-body h3,
+.prose-body h4 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  text-wrap: balance;
+  scroll-margin-top: 4.5rem;
+}
+
+.prose-body h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.35rem);
+}
+
+.prose-body h2 {
+  margin: 2.25rem 0 0.75rem;
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+}
+
+.prose-body h3 {
+  margin: 1.75rem 0 0.5rem;
+  font-size: 1.125rem;
+}
+
+.prose-body p {
+  margin: 0.85rem 0;
+}
+
+.prose-body a {
+  color: var(--vellum-accent);
+  text-underline-offset: 3px;
+}
+
+.prose-body ul,
+.prose-body ol {
+  margin: 0.75rem 0;
+  padding-left: 1.25rem;
+}
+
+.prose-body li {
+  margin: 0.3rem 0;
+}
+
+.prose-body blockquote {
+  margin: 1.25rem 0;
+  border-left: 2px solid var(--vellum-accent);
+  padding: 0.15rem 0 0.15rem 1rem;
+  color: var(--vellum-muted);
+}
+
+.prose-body hr {
+  margin: 2rem 0;
+  border: 0;
+  border-top: 1px solid var(--vellum-border);
+}
+
+.prose-body table {
+  width: 100%;
+  margin: 1.25rem 0;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+
+.prose-body th,
+.prose-body td {
+  border-bottom: 1px solid var(--vellum-border);
+  padding: 0.55rem 0.65rem;
+  text-align: left;
+}
+
+.prose-body th {
+  font-weight: 600;
+  color: var(--vellum-muted);
+}
+
+.prose-body code:not(.hljs) {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background: color-mix(in oklab, var(--vellum-fg) 6%, transparent);
+  border-radius: 6px;
+  padding: 0.1em 0.35em;
+}
+
+.prose-body .code-block {
+  margin: 1.25rem 0;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--vellum-surface);
+  box-shadow: var(--shadow-border);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.55;
+}
+
+.prose-body .code-meta {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.85rem 0;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--vellum-muted);
+}
+
+.prose-body .code-block code {
+  display: block;
+  overflow-x: auto;
+  padding: 0.75rem 0.95rem 1rem;
+  background: transparent;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in {
+  color: var(--vellum-accent);
+}
+
+.hljs-string,
+.hljs-attr {
+  color: color-mix(in oklab, var(--vellum-accent) 70%, var(--vellum-fg));
+}
+
+.hljs-comment {
+  color: var(--vellum-muted);
+  font-style: italic;
+}
+
+.hljs-number,
+.hljs-literal {
+  color: var(--vellum-fg);
+}
+
+.mermaid-inline svg {
+  max-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

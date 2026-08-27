@@ -1,0 +1,40 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Vellum",
+  "version": "0.1.0",
+  "identifier": "app.vellum.reader",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:8080",
+    "beforeBuildCommand": "npm run build:tauri",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Vellum",
+        "width": 1280,
+        "height": 860,
+        "minWidth": 720,
+        "minHeight": 480,
+        "resizable": true,
+        "backgroundColor": "#f4eee4"
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self' ipc: http://ipc.localhost; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src ipc: http://ipc.localhost https://fonts.googleapis.com https://fonts.gstatic.com; worker-src 'self' blob:"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/henry.icns",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}
