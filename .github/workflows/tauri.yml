@@ -17,12 +17,16 @@ jobs:
         include:
           - platform: macos-latest
             args: --target aarch64-apple-darwin
+            artifact: vellum-macos-arm
           - platform: macos-latest
             args: --target x86_64-apple-darwin
+            artifact: vellum-macos-intel
           - platform: ubuntu-22.04
             args: ""
+            artifact: vellum-linux
           - platform: windows-latest
             args: ""
+            artifact: vellum-windows
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -52,8 +56,16 @@ jobs:
           args: ${{ matrix.args }}
           tauriScript: npm run tauri
           uploadUpdaterJson: false
-          tagName: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || '' }}
-          releaseName: Vellum ${{ github.ref_name }}
-          releaseBody: 未签名安装包。macOS 可能需在「隐私与安全性」里允许打开；Windows 可能被 SmartScreen 拦截一次。
-          releaseDraft: true
-          prerelease: false
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ${{ matrix.artifact }}
+          if-no-files-found: warn
+          path: |
+            src-tauri/target/**/*.dmg
+            src-tauri/target/**/*.app
+            src-tauri/target/**/*.exe
+            src-tauri/target/**/*.msi
+            src-tauri/target/**/*.AppImage
+            src-tauri/target/**/*.deb
